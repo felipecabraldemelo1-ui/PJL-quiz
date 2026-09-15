@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>PJL Quiz</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      background: #f4f6f8;
+      color: #111827;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #111827;
+      color: white;
+      padding: 22px 15px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 34px;
+      font-weight: 800;
+    }
+
+    header span {
+      color: #3b82f6;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 30px auto;
+      padding: 15px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 24px;
+      padding: 30px;
+      box-shadow: 0 10px 35px rgba(0,0,0,0.08);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    h2 {
+      font-size: 30px;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #6b7280;
+      font-size: 18px;
+      line-height: 1.5;
+      margin-bottom: 25px;
+    }
+
+    /* TELA INICIAL */
+
+    .prizes {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin: 25px 0;
+    }
+
+    .prize {
+      background: #f3f4f6;
+      padding: 20px 10px;
+      border-radius: 17px;
+      text-align: center;
+    }
+
+    .prize .medal {
+      font-size: 38px;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .prize strong {
+      display: block;
+      font-size: 18px;
+    }
+
+    .prize small {
+      color: #6b7280;
+      display: block;
+      margin-top: 5px;
+    }
+
+    button {
+      border: none;
+      background: #2563eb;
+      color: white;
+      padding: 15px 25px;
+      border-radius: 13px;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background: #1d4ed8;
+      transform: translateY(-1px);
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    .main-button {
+      display: block;
+      margin: 25px auto;
+      min-width: 220px;
+    }
+
+    /* INPUT */
+
+    .input-group {
+      margin: 25px 0;
+    }
+
+    .input-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 15px;
+      border: 2px solid #e5e7eb;
+      border-radius: 12px;
+      font-size: 17px;
+      outline: none;
+    }
+
+    .input-group input:focus {
+      border-color: #2563eb;
+    }
+
+    /* QUIZ */
+
+    .quiz-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      gap: 10px;
+    }
+
+    .question-number {
+      font-weight: bold;
+      color: #6b7280;
+    }
+
+    .score {
+      font-weight: bold;
+      color: #2563eb;
+    }
+
+    .timer-container {
+      background: #e5e7eb;
+      height: 12px;
+      border-radius: 20px;
+      overflow: hidden;
+      margin-bottom: 25px;
+    }
+
+    .timer-bar {
+      height: 100%;
+      width: 100%;
+      background: #2563eb;
+      transition: width 1s linear;
+    }
+
+    .timer-text {
+      text-align: center;
+      font-weight: bold;
+      margin-bottom: 15px;
+      font-size: 18px;
+    }
+
+    .question {
+      font-size: 25px;
+      font-weight: bold;
+      line-height: 1.35;
+      margin-bottom: 25px;
+    }
+
+    .answers {
+      display: grid;
+      gap: 12px;
+    }
+
+    .answer {
+      background: #f3f4f6;
+      color: #111827;
+      border: 2px solid transparent;
+      text-align: left;
+      width: 100%;
+      padding: 17px;
+      border-radius: 13px;
+      font-size: 16px;
+    }
+
+    .answer:hover {
+      background: #e5e7eb;
+      transform: none;
+    }
+
+    .answer.correct {
+      background: #dcfce7;
+      border-color: #22c55e;
+      color: #166534;
+    }
+
+    .answer.wrong {
+      background: #fee2e2;
+      border-color: #ef4444;
+      color: #991b1b;
+    }
+
+    .answer:disabled {
+      cursor: default;
+    }
+
+    /* RESULTADO */
+
+    .result-icon {
+      text-align: center;
+      font-size: 70px;
+      margin: 10px 0;
+    }
+
+    .final-score {
+      text-align: center;
+      font-size: 45px;
+      font-weight: 800;
+      color: #2563eb;
+      margin: 15px 0;
+    }
+
+    .result-message {
+      text-align: center;
+      color: #6b7280;
+      font-size: 18px;
+      margin-bottom: 25px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin: 25px 0;
+    }
+
+    .stat {
+      background: #f3f4f6;
+      border-radius: 15px;
+      padding: 18px;
+      text-align: center;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 25px;
+      margin-bottom: 5px;
+    }
+
+    .stat span {
+      color: #6b7280;
+    }
+
+    /* RANKING */
+
+    .ranking {
+      margin-top: 30px;
+    }
+
+    .ranking h3 {
+      font-size: 25px;
+      margin-bottom: 15px;
+    }
+
+    .ranking-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 15px 5px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .ranking-position {
+      font-size: 24px;
+      min-width: 45px;
+    }
+
+    .ranking-name {
+      flex: 1;
+      font-weight: bold;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .ranking-points {
+      font-weight: bold;
+      color: #2563eb;
+    }
+
+    .empty-ranking {
+      color: #6b7280;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .secondary-button {
+      background: #111827;
+      margin: 8px auto;
+      display: block;
+    }
+
+    .secondary-button:hover {
+      background: #1f2937;
+    }
+
+    /* CELULAR */
+
+    @media (max-width: 600px) {
+
+      header h1 {
+        font-size: 30px;
+      }
+
+      .container {
+        margin: 15px auto;
+        padding: 10px;
+      }
+
+      .card {
+        padding: 22px 18px;
+        border-radius: 20px;
+      }
+
+      h2 {
+        font-size: 27px;
+      }
+
+      .subtitle {
+        font-size: 16px;
+      }
+
+      .prizes {
+        grid-template-columns: 1fr;
+      }
+
+      .prize {
+        padding: 15px;
+      }
+
+      .question {
+        font-size: 21px;
+      }
+
+      .stats {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>PJL <span>QUIZ</span></h1>
+</header>
+
+
+<div class="container">
+
+  <!-- ========================= -->
+  <!-- TELA INICIAL -->
+  <!-- ========================= -->
+
+  <section id="home" class="card">
+
+    <h2>Desafie seus conhecimentos!</h2>
+
+    <p class="subtitle">
+      Responda às perguntas, acumule pontos
+      e acompanhe sua posição no ranking.
+    </p>
+
+    <div class="prizes">
+
+      <div class="prize">
+        <span class="medal">🥇</span>
+        <strong>1º Lugar</strong>
+        <small>Campeão</small>
+      </div>
+
+      <div class="prize">
+        <span class="medal">🥈</span>
+        <strong>2º Lugar</strong>
+        <small>Vice-campeão</small>
+      </div>
+
+      <div class="prize">
+        <span class="medal">🥉</span>
+        <strong>3º Lugar</strong>
+        <small>Terceiro colocado</small>
+      </div>
+
+    </div>
+
+    <button class="main-button" onclick="mostrarNome()">
+      JOGAR AGORA
+    </button>
+
+    <div class="ranking">
+
+      <h3>🏆 Ranking</h3>
+
+      <div id="homeRanking"></div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ========================= -->
+  <!-- TELA DO NOME -->
+  <!-- ========================= -->
+
+  <section id="nameScreen" class="card hidden">
+
+    <h2>👋 Bem-vindo ao PJL Quiz!</h2>
+
+    <p class="subtitle">
+      Antes de começar, escolha um apelido para aparecer no ranking.
+    </p>
+
+    <div class="input-group">
+
+      <label for="nickname">Seu apelido</label>
+
+      <input
+        id="nickname"
+        type="text"
+        maxlength="20"
+        placeholder="Digite seu apelido"
+        autocomplete="off"
+      >
+
+    </div>
+
+    <button class="main-button" onclick="iniciarQuiz()">
+      COMEÇAR QUIZ
+    </button>
+
+    <button class="secondary-button" onclick="voltarInicio()">
+      VOLTAR
+    </button>
+
+  </section>
+
+
+  <!-- ========================= -->
+  <!-- TELA DO QUIZ -->
+  <!-- ========================= -->
+
+  <section id="quizScreen" class="card hidden">
+
+    <div class="quiz-top">
+
+      <div class="question-number" id="questionNumber">
+        Pergunta 1/10
+      </div>
+
+      <div class="score">
+        Pontos: <span id="currentScore">0</span>
+      </div>
+
+    </div>
+
+    <div class="timer-text">
+      ⏱️ <span id="timer">15</span>s
+    </div>
+
+    <div class="timer-container">
+      <div id="timerBar" class="timer-bar"></div>
+    </div>
+
+    <div id="question" class="question">
+      Pergunta
+    </div>
+
+    <div id="answers" class="answers"></div>
+
+  </section>
+
+
+  <!-- ========================= -->
+  <!-- RESULTADO -->
+  <!-- ========================= -->
+
+  <section id="resultScreen" class="card hidden">
+
+    <div class="result-icon">
+      🏆
+    </div>
+
+    <h2>Quiz finalizado!</h2>
+
+    <p class="subtitle">
+      Parabéns, <strong id="resultName"></strong>!
+    </p>
+
+    <div class="final-score">
+      <span id="finalScore">0</span>
+    </div>
+
+    <p class="result-message" id="resultMessage">
+      Resultado
+    </p>
+
+    <div class="stats">
+
+      <div class="stat">
+        <strong id="correctAnswers">0</strong>
+        <span>Acertos</span>
+      </div>
+
+      <div class="stat">
+        <strong id="wrongAnswers">0</strong>
+        <span>Erros</span>
+      </div>
+
+    </div>
+
+    <button class="main-button" onclick="jogarNovamente()">
+      JOGAR NOVAMENTE
+    </button>
+
+    <button class="secondary-button" onclick="voltarInicio()">
+      VOLTAR AO INÍCIO
+    </button>
+
+    <div class="ranking">
+
+      <h3>🏆 Ranking</h3>
+
+      <div id="resultRanking"></div>
+
+    </div>
+
+  </section>
+
+</div>
+
+
+<script>
+
+  /* ==========================================
+     PERGUNTAS
+  ========================================== */
+
+  const perguntas = [
+
+    {
+      pergunta: "Qual é a capital do Brasil?",
+      respostas: [
+        "São Paulo",
+        "Rio de Janeiro",
+        "Brasília",
+        "Belo Horizonte"
+      ],
+      correta: 2
+    },
+
+    {
+      pergunta: "Quanto é 8 × 7?",
+      respostas: [
+        "54",
+        "56",
+        "64",
+        "48"
+      ],
+      correta: 1
+    },
+
+    {
+      pergunta: "Qual planeta é conhecido como Planeta Vermelho?",
+      respostas: [
+        "Vênus",
+        "Júpiter",
+        "Marte",
+        "Saturno"
+      ],
+      correta: 2
+    },
+
+    {
+      pergunta: "Qual é o maior oceano da Terra?",
+      respostas: [
+        "Oceano Atlântico",
+        "Oceano Índico",
+        "Oceano Ártico",
+        "Oceano Pacífico"
+      ],
+      correta: 3
+    },
+
+    {
+      pergunta: "Quantos lados tem um hexágono?",
+      respostas: [
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      correta: 1
+    },
+
+    {
+      pergunta: "Qual animal é conhecido como o rei da selva?",
+      respostas: [
+        "Tigre",
+        "Elefante",
+        "Leão",
+        "Guepardo"
+      ],
+      correta: 2
+    },
+
+    {
+      pergunta: "Qual é o resultado de 100 ÷ 4?",
+      respostas: [
+        "20",
+        "25",
+        "30",
+        "40"
+      ],
+      correta: 1
+    },
+
+    {
+      pergunta: "Qual destes é um continente?",
+      respostas: [
+        "Amazonas",
+        "Europa",
+        "Atlântico",
+        "Saara"
+      ],
+      correta: 1
+    },
+
+    {
+      pergunta: "Qual gás os seres humanos precisam principalmente para respirar?",
+      respostas: [
+        "Oxigênio",
+        "Hélio",
+        "Hidrogênio",
+        "Dióxido de carbono"
+      ],
+      correta: 0
+    },
+
+    {
+      pergunta: "Quantos minutos existem em uma hora?",
+      respostas: [
+        "30",
+        "45",
+        "60",
+        "90"
+      ],
+      correta: 2
+    }
+
+  ];
+
+
+  /* ==========================================
+     VARIÁVEIS DO JOGO
+  ========================================== */
+
+  let perguntaAtual = 0;
+  let pontuacao = 0;
+  let acertos = 0;
+  let erros = 0;
+  let tempo = 15;
+  let intervalo = null;
+  let jogador = "";
+
+
+  /* ==========================================
+     ELEMENTOS
+  ========================================== */
+
+  const home = document.getElementById("home");
+  const nameScreen = document.getElementById("nameScreen");
+  const quizScreen = document.getElementById("quizScreen");
+  const resultScreen = document.getElementById("resultScreen");
+
+  const nickname = document.getElementById("nickname");
+
+  const questionNumber = document.getElementById("questionNumber");
+  const currentScore = document.getElementById("currentScore");
+
+  const timer = document.getElementById("timer");
+  const timerBar = document.getElementById("timerBar");
+
+  const question = document.getElementById("question");
+  const answers = document.getElementById("answers");
+
+  const resultName = document.getElementById("resultName");
+  const finalScore = document.getElementById("finalScore");
+
+  const correctAnswers = document.getElementById("correctAnswers");
+  const wrongAnswers = document.getElementById("wrongAnswers");
+
+  const resultMessage = document.getElementById("resultMessage");
+
+  const homeRanking = document.getElementById("homeRanking");
+  const resultRanking = document.getElementById("resultRanking");
+
+
+  /* ==========================================
+     TROCAR DE TELA
+  ========================================== */
+
+  function esconderTodas() {
+
+    home.classList.add("hidden");
+    nameScreen.classList.add("hidden");
+    quizScreen.classList.add("hidden");
+    resultScreen.classList.add("hidden");
+
+  }
+
+
+  /* ==========================================
+     MOSTRAR TELA DE NOME
+  ========================================== */
+
+  function mostrarNome() {
+
+    esconderTodas();
+
+    nameScreen.classList.remove("hidden");
+
+    nickname.focus();
+
+  }
+
+
+  /* ==========================================
+     INICIAR QUIZ
+  ========================================== */
+
+  function iniciarQuiz() {
+
+    const nome = nickname.value.trim();
+
+    if (nome.length < 2) {
+
+      alert("Digite um apelido com pelo menos 2 caracteres.");
+
+      nickname.focus();
+
+      return;
+
+    }
+
+    jogador = nome.substring(0, 20);
+
+    perguntaAtual = 0;
+    pontuacao = 0;
+    acertos = 0;
+    erros = 0;
+
+    esconderTodas();
+
+    quizScreen.classList.remove("hidden");
+
+    mostrarPergunta();
+
+  }
+
+
+  /* ==========================================
+     MOSTRAR PERGUNTA
+  ========================================== */
+
+  function mostrarPergunta() {
+
+    clearInterval(intervalo);
+
+    const atual = perguntas[perguntaAtual];
+
+    questionNumber.textContent =
+      "Pergunta " + (perguntaAtual + 1) + "/" + perguntas.length;
+
+    currentScore.textContent = pontuacao;
+
+    question.textContent = atual.pergunta;
+
+    answers.innerHTML = "";
+
+    atual.respostas.forEach((resposta, indice) => {
+
+      const botao = document.createElement("button");
+
+      botao.className = "answer";
+
+      botao.textContent =
+        String.fromCharCode(65 + indice) + ") " + resposta;
+
+      botao.onclick = function() {
+
+        responder(indice, botao);
+
+      };
+
+      answers.appendChild(botao);
+
+    });
+
+    iniciarTimer();
+
+  }
+
+
+  /* ==========================================
+     CRONÔMETRO
+  ========================================== */
+
+  function iniciarTimer() {
+
+    tempo = 15;
+
+    atualizarTimer();
+
+    intervalo = setInterval(() => {
+
+      tempo--;
+
+      atualizarTimer();
+
+      if (tempo <= 0) {
+
+        clearInterval(intervalo);
+
+        tempoEsgotado();
+
+      }
+
+    }, 1000);
+
+  }
+
+
+  function atualizarTimer() {
+
+    timer.textContent = tempo;
+
+    const porcentagem = (tempo / 15) * 100;
+
+    timerBar.style.width = porcentagem + "%";
+
+  }
+
+
+  /* ==========================================
+     TEMPO ESGOTADO
+  ========================================== */
+
+  function tempoEsgotado() {
+
+    erros++;
+
+    bloquearRespostas();
+
+    const botoes = document.querySelectorAll(".answer");
+
+    const correta = perguntas[perguntaAtual].correta;
+
+    if (botoes[correta]) {
+
+      botoes[correta].classList.add("correct");
+
+    }
+
+    setTimeout(proximaPergunta, 900);
+
+  }
+
+
+  /* ==========================================
+     RESPONDER
+  ========================================== */
+
+  function responder(indice, botao) {
+
+    clearInterval(intervalo);
+
+    bloquearRespostas();
+
+    const atual = perguntas[perguntaAtual];
+
+    if (indice === atual.correta) {
+
+      acertos++;
+
+      /*
+        Pontuação:
+        100 pontos pelo acerto
+        + até 50 pontos pela velocidade
+      */
+
+      const bonus = tempo * 5;
+
+      pontuacao += 100 + bonus;
+
+      botao.classList.add("correct");
+
+    } else {
+
+      erros++;
+
+      botao.classList.add("wrong");
+
+      const botoes = document.querySelectorAll(".answer");
+
+      botoes[atual.correta].classList.add("correct");
+
+    }
+
+    currentScore.textContent = pontuacao;
+
+    setTimeout(proximaPergunta, 900);
+
+  }
+
+
+  /* ==========================================
+     BLOQUEAR RESPOSTAS
+  ========================================== */
+
+  function bloquearRespostas() {
+
+    const botoes = document.querySelectorAll(".answer");
+
+    botoes.forEach(botao => {
+
+      botao.disabled = true;
+
+    });
+
+  }
+
+
+  /* ==========================================
+     PRÓXIMA PERGUNTA
+  ========================================== */
+
+  function proximaPergunta() {
+
+    perguntaAtual++;
+
+    if (perguntaAtual >= perguntas.length) {
+
+      finalizarQuiz();
+
+      return;
+
+    }
+
+    mostrarPergunta();
+
+  }
+
+
+  /* ==========================================
+     FINALIZAR QUIZ
+  ========================================== */
+
+  function finalizarQuiz() {
+
+    clearInterval(intervalo);
+
+    salvarResultado();
+
+    esconderTodas();
+
+    resultScreen.classList.remove("hidden");
+
+    resultName.textContent = jogador;
+
+    finalScore.textContent = pontuacao + " pontos";
+
+    correctAnswers.textContent = acertos;
+
+    wrongAnswers.textContent = erros;
+
+
+    if (acertos === perguntas.length) {
+
+      resultMessage.textContent =
+        "🔥 Incrível! Você acertou todas as perguntas!";
+
+    } else if (acertos >= 7) {
+
+      resultMessage.textContent =
+        "👏 Excelente resultado!";
+
+    } else if (acertos >= 5) {
+
+      resultMessage.textContent =
+        "👍 Bom trabalho! Continue praticando.";
+
+    } else {
+
+      resultMessage.textContent =
+        "💪 Continue tentando e melhore sua pontuação!";
+
+    }
+
+    mostrarRanking(resultRanking);
+
+  }
+
+
+  /* ==========================================
+     SALVAR RANKING
+  ========================================== */
+
+  function salvarResultado() {
+
+    let ranking = JSON.parse(
+      localStorage.getItem("pjlQuizRanking") || "[]"
+    );
+
+    ranking.push({
+
+      nome: jogador,
+      pontos: pontuacao
+
+    });
+
+    ranking.sort((a, b) => b.pontos - a.pontos);
+
+    /*
+      Mantém apenas os 20 melhores
+    */
+
+    ranking = ranking.slice(0, 20);
+
+    localStorage.setItem(
+      "pjlQuizRanking",
+      JSON.stringify(ranking)
+    );
+
+  }
+
+
+  /* ==========================================
+     MOSTRAR RANKING
+  ========================================== */
+
+  function mostrarRanking(elemento) {
+
+    let ranking = JSON.parse(
+      localStorage.getItem("pjlQuizRanking") || "[]"
+    );
+
+    elemento.innerHTML = "";
+
+    if (ranking.length === 0) {
+
+      elemento.innerHTML =
+        '<div class="empty-ranking">Ainda não existem jogadores no ranking.</div>';
+
+      return;
+
+    }
+
+    ranking.forEach((item, indice) => {
+
+      const div = document.createElement("div");
+
+      div.className = "ranking-item";
+
+      let medalha = "";
+
+      if (indice === 0) {
+        medalha = "🥇";
+      } else if (indice === 1) {
+        medalha = "🥈";
+      } else if (indice === 2) {
+        medalha = "🥉";
+      } else {
+        medalha = (indice + 1) + "º";
+      }
+
+      div.innerHTML = `
+        <span class="ranking-position">${medalha}</span>
+        <span class="ranking-name">${escaparHTML(item.nome)}</span>
+        <span class="ranking-points">${item.pontos} pts</span>
+      `;
+
+      elemento.appendChild(div);
+
+    });
+
+  }
+
+
+  /* ==========================================
+     PROTEÇÃO DO NOME NO RANKING
+  ========================================== */
+
+  function escaparHTML(texto) {
+
+    return texto
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+
+  }
+
+
+  /* ==========================================
+     JOGAR NOVAMENTE
+  ========================================== */
+
+  function jogarNovamente() {
+
+    nickname.value = jogador;
+
+    mostrarNome();
+
+  }
+
+
+  /* ==========================================
+     VOLTAR PARA INÍCIO
+  ========================================== */
+
+  function voltarInicio() {
+
+    clearInterval(intervalo);
+
+    esconderTodas();
+
+    home.classList.remove("hidden");
+
+    mostrarRanking(homeRanking);
+
+  }
+
+
+  /* ==========================================
+     RANKING AO ABRIR O SITE
+  ========================================== */
+
+  mostrarRanking(homeRanking);
+
+
+  /* ==========================================
+     ENTER NO CAMPO DE NOME
+  ========================================== */
+
+  nickname.addEventListener("keydown", function(event) {
+
+    if (event.key === "Enter") {
+
+      iniciarQuiz();
+
+    }
+
+  });
+
+</script>
+
+</body>
+</html>
