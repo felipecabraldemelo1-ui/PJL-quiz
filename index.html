@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>PJL Quiz</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f4f6f8;
+      color: #111827;
+    }
+
+    header {
+      background: #111827;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 30px;
+    }
+
+    header span {
+      color: #3b82f6;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 30px;
+      margin-bottom: 15px;
+    }
+
+    p {
+      color: #6b7280;
+      margin-bottom: 25px;
+      line-height: 1.5;
+    }
+
+    button {
+      border: none;
+      background: #2563eb;
+      color: white;
+      padding: 15px 25px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #1d4ed8;
+    }
+
+    .prizes {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin: 25px 0;
+    }
+
+    .prize {
+      background: #f3f4f6;
+      padding: 20px 10px;
+      border-radius: 15px;
+    }
+
+    .prize strong {
+      display: block;
+      font-size: 22px;
+      margin-bottom: 8px;
+    }
+
+    .ranking {
+      margin-top: 25px;
+      text-align: left;
+    }
+
+    .ranking div {
+      padding: 14px;
+      border-bottom: 1px solid #eee;
+    }
+
+    @media (max-width: 600px) {
+      .prizes {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>PJL <span>QUIZ</span></h1>
+  </header>
+
+  <div class="container">
+
+    <div class="card">
+
+      <h2>Desafie seus conhecimentos!</h2>
+
+      <p>
+        Responda às perguntas, acumule pontos
+        e acompanhe sua posição no ranking.
+      </p>
+
+      <div class="prizes">
+
+        <div class="prize">
+          <strong>🥇</strong>
+          1º Lugar
+        </div>
+
+        <div class="prize">
+          <strong>🥈</strong>
+          2º Lugar
+        </div>
+
+        <div class="prize">
+          <strong>🥉</strong>
+          3º Lugar
+        </div>
+
+      </div>
+
+      <button onclick="começar()">
+        JOGAR AGORA
+      </button>
+
+      <div class="ranking">
+
+        <h3>🏆 Ranking</h3>
+
+        <div>🥇 Jogador 1 — 980 pontos</div>
+        <div>🥈 Jogador 2 — 920 pontos</div>
+        <div>🥉 Jogador 3 — 870 pontos</div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    function começar() {
+      alert("O quiz será iniciado em breve!");
+    }
+  </script>
+
+</body>
+</html>
